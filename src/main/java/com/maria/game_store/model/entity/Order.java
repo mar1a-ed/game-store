@@ -20,7 +20,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders")
+@Table(name = "tb_orders")
 public class Order implements Serializable {
 
     @Id

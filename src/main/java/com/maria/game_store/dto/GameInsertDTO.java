@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,7 +15,7 @@ public class GameInsertDTO {
 
     private String title;
 
-    private Double price;
+    private BigDecimal price;
 
     private Integer stockQuantity;
 }

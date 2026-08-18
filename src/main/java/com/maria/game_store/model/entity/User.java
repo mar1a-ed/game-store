@@ -10,8 +10,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -33,7 +31,7 @@ public abstract class User implements Serializable {
     @Column(name = "password", length = 20)
     private String password;
 
-    @Column(name = "email", length = 100, unique = true, nullable = false)
+    @Column(name = "email", length = 200, unique = true, nullable = false)
     private String email;
 
     @Column(name = "role")

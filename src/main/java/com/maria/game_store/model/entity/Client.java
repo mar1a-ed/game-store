@@ -1,5 +1,6 @@
 package com.maria.game_store.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -30,7 +32,8 @@ public class Client extends User {
     private LocalDate birthday;
 
     @OneToMany(mappedBy = "client")
-    private Order order;
+    @JsonIgnore
+    private List<Order> order;
 
     @Override
     public boolean equals(Object object) {

@@ -5,19 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class GameResponseDTO {
+public class ClientCreateDTO {
 
-    private Long id;
+    private String nickname;
 
-    private String title;
+    private String email;
 
-    private BigDecimal price;
+    private String password;
 
-    private Integer stockQuantity;
+    private String cpf;
 }
