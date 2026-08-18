@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "games")
+@Table(name = "tb_games")
 public class Game implements Serializable {
 
     @Id
@@ -39,7 +40,7 @@ public class Game implements Serializable {
     private Integer stockQuantity;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "age_rating")
     private Integer ageRating;
