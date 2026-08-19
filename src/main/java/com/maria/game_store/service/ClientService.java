@@ -2,6 +2,7 @@ package com.maria.game_store.service;
 
 import com.maria.game_store.dto.ClientCreateDTO;
 import com.maria.game_store.dto.ClientMapper;
+import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.model.entity.Client;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.ClientRepository;
@@ -28,12 +29,15 @@ public class ClientService {
             throw new RuntimeException("Client already exists.");
         }
 
+        if(userRepository.existsByNickname(dto.getNickname())){
+            throw new NicknameException("Nickname already exists.");
+        }
+
         client.setNickname(dto.getNickname());
-        client.setPassword(dto.getPassword());
         client.setEmail(dto.getEmail());
+        client.setPassword(dto.getPassword());
         client.setCpf(dto.getCpf());
         client.setRole(Role.ROLE_CLIENT);
-        clientRepository.save(client);
 
         return client;
     }

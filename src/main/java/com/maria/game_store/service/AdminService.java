@@ -1,6 +1,7 @@
 package com.maria.game_store.service;
 
 import com.maria.game_store.dto.AdminCreateDTO;
+import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.model.entity.Admin;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.AdminRepository;
@@ -25,6 +26,10 @@ public class AdminService {
 
         if(adminRepository.existsByCodeRh(dto.getCodeRh())){
             throw new RuntimeException("Error. Admin already exists.");
+        }
+
+        if(userRepository.existsByNickname(dto.getNickname())){
+            throw new NicknameException("Nickname already exists.");
         }
 
         admin.setNickname(dto.getNickname());

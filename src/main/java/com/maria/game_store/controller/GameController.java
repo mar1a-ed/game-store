@@ -59,6 +59,12 @@ public class GameController {
         gameService.updateGame(id, option, data);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+    @PatchMapping("/{id}/update/stock/{variation}")
+    public ResponseEntity<Void> updateGameStock(@PathVariable Long id, @PathVariable String variation, @RequestBody Integer quantity){
+        gameService.updateGameStock(id, variation, quantity);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
 }
 
 
