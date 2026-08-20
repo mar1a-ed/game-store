@@ -30,14 +30,14 @@ public class AdminController {
         }
     }
 
-    @PatchMapping("/update/position/mid")
+    @PatchMapping("/{id}/update/position/mid")
     public ResponseEntity<AdminResponseDTO> updatePositionMid(@PathVariable Long id){
         Admin admin = adminService.updatePositionMid(id);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
     }
 
-    @PatchMapping("/update/position/senior")
+    @PatchMapping("/{id}/update/position/senior")
     public ResponseEntity<AdminResponseDTO> updatePositionSenior(@PathVariable Long id){
         Admin admin = adminService.updatePositionSenior(id);
 
