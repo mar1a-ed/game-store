@@ -1,5 +1,7 @@
 package com.maria.game_store.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.maria.game_store.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,15 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Client.class, name = "client"),
+        @JsonSubTypes.Type(value = Admin.class, name = "admin")
+})
 @Entity
 @Table(name = "tb_users")
 @Inheritance(strategy = InheritanceType.JOINED)

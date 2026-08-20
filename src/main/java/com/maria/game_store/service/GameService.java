@@ -7,6 +7,7 @@ import com.maria.game_store.exception.ZeroInventoryException;
 import com.maria.game_store.model.entity.Game;
 import com.maria.game_store.model.enums.Genre;
 import com.maria.game_store.repository.GameRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class GameService {
 
     private final GameRepository gameRepository;
 
+    @Transactional
     public Game insertGame(GameInsertDTO gameInsertDTO){
         Game game = GameMapper.toGame(gameInsertDTO);
 
@@ -32,6 +34,7 @@ public class GameService {
         return game;
     }
 
+    @Transactional
     public Game findGameById(Long id){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
@@ -40,6 +43,7 @@ public class GameService {
         return game;
     }
 
+    @Transactional
     public List<Game> findGameByTitle(String title){
         List<Game> games = gameRepository.findByTitleContaining(title);
 
@@ -50,6 +54,7 @@ public class GameService {
         return games;
     }
 
+    @Transactional
     public List<Game> findByGenre(String genre){
         List<Game> games = gameRepository.findByGenreContaining(genre);
 
@@ -60,6 +65,7 @@ public class GameService {
         return games;
     }
 
+    @Transactional
     public void updateGame(Long id, String option, Game data){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
@@ -80,6 +86,7 @@ public class GameService {
         gameRepository.save(game);
     }
 
+    @Transactional
     public void updateGameStock(Long id, String variation, Integer quantity){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
@@ -98,6 +105,7 @@ public class GameService {
         gameRepository.save(game);
     }
 
+    @Transactional
     public Game gameStockOut(Long id){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")

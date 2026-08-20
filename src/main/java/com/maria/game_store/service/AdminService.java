@@ -5,11 +5,15 @@ import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.exception.RoleException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.Admin;
+import com.maria.game_store.model.entity.Client;
+import com.maria.game_store.model.entity.User;
 import com.maria.game_store.model.enums.Position;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.AdminRepository;
 import com.maria.game_store.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public Admin createAdmin(AdminCreateDTO dto){
         Admin admin = new Admin();
 
@@ -47,6 +52,8 @@ public class AdminService {
         return admin;
     }
 
+    @SneakyThrows
+    @Transactional
     public Admin updatePositionMid(Long id){
         Admin admin = (Admin) userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User not found.")
@@ -62,6 +69,8 @@ public class AdminService {
         return admin;
     }
 
+    @SneakyThrows
+    @Transactional
     public Admin updatePositionSenior(Long id){
         Admin admin = (Admin) userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User not found.")
@@ -76,5 +85,4 @@ public class AdminService {
 
         return admin;
     }
-
 }

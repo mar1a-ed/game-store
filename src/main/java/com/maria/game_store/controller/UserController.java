@@ -2,14 +2,13 @@ package com.maria.game_store.controller;
 
 import com.maria.game_store.dto.UserMapper;
 import com.maria.game_store.dto.UserResponseDTO;
+import com.maria.game_store.dto.UserUpdateDTO;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,5 +39,12 @@ public class UserController {
         UserResponseDTO dto = UserMapper.toDto(user);
 
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PatchMapping("/{nickname}/update")
+    public ResponseEntity<UserResponseDTO> updateUserData(@PathVariable String nickname, @RequestBody UserUpdateDTO data){
+        User user = userService.updateUserData(nickname, data);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

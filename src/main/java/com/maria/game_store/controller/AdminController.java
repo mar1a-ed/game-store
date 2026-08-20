@@ -3,8 +3,12 @@ package com.maria.game_store.controller;
 import com.maria.game_store.dto.AdminCreateDTO;
 import com.maria.game_store.dto.AdminMapper;
 import com.maria.game_store.dto.AdminResponseDTO;
+import com.maria.game_store.dto.ClientResponseDTO;
 import com.maria.game_store.model.entity.Admin;
+import com.maria.game_store.model.entity.Client;
+import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.AdminService;
+import com.maria.game_store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,4 +47,5 @@ public class AdminController {
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
     }
+
 }
