@@ -6,11 +6,9 @@ import com.maria.game_store.dto.AdminResponseDTO;
 import com.maria.game_store.model.entity.Admin;
 import com.maria.game_store.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,5 +28,19 @@ public class AdminController {
         }catch (Exception e){
             throw new RuntimeException("Error: " + e.getMessage());
         }
+    }
+
+    @PatchMapping("/update/position/mid")
+    public ResponseEntity<AdminResponseDTO> updatePositionMid(@PathVariable Long id){
+        Admin admin = adminService.updatePositionMid(id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
+    }
+
+    @PatchMapping("/update/position/senior")
+    public ResponseEntity<AdminResponseDTO> updatePositionSenior(@PathVariable Long id){
+        Admin admin = adminService.updatePositionSenior(id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
     }
 }

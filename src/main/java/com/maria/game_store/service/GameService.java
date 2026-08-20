@@ -97,4 +97,18 @@ public class GameService {
 
         gameRepository.save(game);
     }
+
+    public Game gameStockOut(Long id){
+        Game game = gameRepository.findById(id).orElseThrow(
+                () -> new GameNotFoundException("Game not found.")
+        );
+
+        if(game.getStockQuantity() != 0){
+            game.setStockQuantity(0);
+        }else{
+            throw new ZeroInventoryException("Game already stock-out.");
+        }
+
+        return gameRepository.save(game);
+    }
 }

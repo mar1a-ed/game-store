@@ -2,7 +2,10 @@ package com.maria.game_store.service;
 
 import com.maria.game_store.dto.AdminCreateDTO;
 import com.maria.game_store.exception.NicknameException;
+import com.maria.game_store.exception.RoleException;
+import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.Admin;
+import com.maria.game_store.model.enums.Position;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.AdminRepository;
 import com.maria.game_store.repository.UserRepository;
@@ -37,9 +40,41 @@ public class AdminService {
         admin.setPassword(dto.getPassword());
         admin.setCodeRh(dto.getCodeRh());
         admin.setRole(Role.ROLE_ADMIN);
+        admin.setPosition(Position.ENTRY_LEVEL);
 
         adminRepository.save(admin);
 
         return admin;
     }
+
+    public Admin updatePositionMid(Long id){
+        Admin admin = (Admin) userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("User not found.")
+        );
+
+        if(!admin.getRole().equals(Role.ROLE_ADMIN)){
+            throw new RoleException("The user is not a admin.");
+        }
+
+        admin.setPosition(Position.MID_LEVEL);
+        adminRepository.save(admin);
+
+        return admin;
+    }
+
+    public Admin updatePositionSenior(Long id){
+        Admin admin = (Admin) userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("User not found.")
+        );
+
+        if(!admin.getRole().equals(Role.ROLE_ADMIN)){
+            throw new RoleException("The user is not a admin.");
+        }
+
+        admin.setPosition(Position.SENIOR_LEVEL);
+        adminRepository.save(admin);
+
+        return admin;
+    }
+
 }

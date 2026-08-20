@@ -65,6 +65,12 @@ public class GameController {
         gameService.updateGameStock(id, variation, quantity);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+    @PatchMapping("/{id}/update/stock-out")
+    public ResponseEntity<GameResponseDTO> gameStockOut(@PathVariable Long id){
+        Game game = gameService.gameStockOut(id);
+        return ResponseEntity.ok().body(GameMapper.toDto(game));
+    }
 }
 
 
