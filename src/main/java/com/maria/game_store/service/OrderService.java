@@ -1,6 +1,8 @@
 package com.maria.game_store.service;
 
 import com.maria.game_store.dto.OrderItemDTO;
+import com.maria.game_store.dto.OrderUpdateDTO;
+import com.maria.game_store.exception.OrderNotFoundException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.exception.ZeroInventoryException;
 import com.maria.game_store.model.entity.Client;
@@ -68,4 +70,18 @@ public class OrderService {
 
         return order;
     }
+
+    @Transactional
+    public Order updateOrderStatus(Long id, OrderUpdateDTO status){
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new OrderNotFoundException("Order not found.")
+        );
+
+        order.setStatus(OrderStatus.valueOf(status.getStatus()));
+
+        orderRepository.save(order);
+
+        return order;
+    }
+
 }
