@@ -12,4 +12,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByGenreContaining(String genre);
 
     List<Game> findByTitleContaining(String title);
+
+    Game findByTitle(String titleGame);
+
+    boolean existsByTitle(String titleGame);
 }

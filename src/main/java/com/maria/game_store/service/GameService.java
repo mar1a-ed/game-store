@@ -55,7 +55,7 @@ public class GameService {
     }
 
     @Transactional
-    public List<Game> findByGenre(String genre){
+    public List<Game> findByGameGenre(String genre){
         List<Game> games = gameRepository.findByGenreContaining(genre);
 
         if(games.isEmpty()){
