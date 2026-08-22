@@ -7,6 +7,7 @@ import com.maria.game_store.model.entity.Client;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.ClientService;
 import com.maria.game_store.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createClient(@RequestBody ClientCreateDTO dto){
+    public ResponseEntity<?> createClient(@RequestBody @Valid ClientCreateDTO dto){
         try{
             Client client = clientService.createClient(dto);
 

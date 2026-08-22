@@ -25,7 +25,7 @@ public class Client extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cpf", length = 14, unique = true)
+    @Column(name = "cpf", length = 11, unique = true)
     private String cpf;
 
     @Column(name = "birthday")

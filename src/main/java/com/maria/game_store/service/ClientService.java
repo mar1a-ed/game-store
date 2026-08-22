@@ -36,10 +36,12 @@ public class ClientService {
             throw new NicknameException("Nickname already exists.");
         }
 
+        client.setName(dto.getName());
         client.setNickname(dto.getNickname());
         client.setEmail(dto.getEmail());
         client.setPassword(dto.getPassword());
         client.setCpf(dto.getCpf());
+        client.setBirthday(dto.getBirthday());
         client.setRole(Role.ROLE_CLIENT);
 
         return client;

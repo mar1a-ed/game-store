@@ -40,12 +40,13 @@ public class AdminService {
             throw new NicknameException("Nickname already exists.");
         }
 
+        admin.setName(dto.getName());
         admin.setNickname(dto.getNickname());
         admin.setEmail(dto.getEmail());
         admin.setPassword(dto.getPassword());
         admin.setCodeRh(dto.getCodeRh());
         admin.setRole(Role.ROLE_ADMIN);
-        admin.setPosition(Position.ENTRY_LEVEL);
+        admin.setPosition(Position.valueOf(dto.getPosition()));
 
         adminRepository.save(admin);
 

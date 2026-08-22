@@ -5,6 +5,7 @@ import com.maria.game_store.dto.UserResponseDTO;
 import com.maria.game_store.dto.UserUpdateDTO;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PatchMapping("/{nickname}/update")
-    public ResponseEntity<UserResponseDTO> updateUserData(@PathVariable String nickname, @RequestBody UserUpdateDTO data){
+    public ResponseEntity<UserResponseDTO> updateUserData(@PathVariable String nickname, @RequestBody @Valid UserUpdateDTO data){
         User user = userService.updateUserData(nickname, data);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();

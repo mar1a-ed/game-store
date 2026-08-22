@@ -9,6 +9,7 @@ import com.maria.game_store.model.entity.Client;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.AdminService;
 import com.maria.game_store.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/create")
-    public ResponseEntity<AdminResponseDTO> createAdmin(@RequestBody AdminCreateDTO dto){
+    public ResponseEntity<AdminResponseDTO> createAdmin(@RequestBody @Valid AdminCreateDTO dto){
         try{
             Admin admin = adminService.createAdmin(dto);
 

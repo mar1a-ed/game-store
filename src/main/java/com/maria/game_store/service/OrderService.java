@@ -2,6 +2,7 @@ package com.maria.game_store.service;
 
 import com.maria.game_store.dto.OrderItemDTO;
 import com.maria.game_store.dto.OrderUpdateDTO;
+import com.maria.game_store.exception.AgeRatingException;
 import com.maria.game_store.exception.OrderNotFoundException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.exception.ZeroInventoryException;
@@ -9,6 +10,8 @@ import com.maria.game_store.model.entity.Client;
 import com.maria.game_store.model.entity.Order;
 import com.maria.game_store.model.entity.OrderItem;
 import com.maria.game_store.model.enums.OrderStatus;
+import com.maria.game_store.model.enums.Payment;
+import com.maria.game_store.model.enums.PaymentMethod;
 import com.maria.game_store.repository.ClientRepository;
 import com.maria.game_store.repository.GameRepository;
 import com.maria.game_store.repository.OrderRepository;
@@ -56,15 +59,35 @@ public class OrderService {
                         gameRepository.findByTitle(orderItems.getTitleGame()).getStockQuantity() - orderItems.getQuantity()
                 );
 
+                order.setPaymentMethod(PaymentMethod.valueOf(orderItems.getPaymentMethod()));
+
+                Integer clientAge = LocalDate.EPOCH.getYear() - client.getBirthday().getYear();
+
+                if(clientAge < orderItem.getGame().getAgeRating()){
+                    throw new AgeRatingException("Age not denied for this game.");
+                }
+
+                order.setClient(client);
+                order.setStatus(OrderStatus.PROCESSING);
+                order.setTotalPrice(BigDecimal.valueOf(sum));
+                order.setOrderDate(LocalDate.now());
+                order.setPayment(Payment.PENDING);
+                orderRepository.save(order);
             }else{
                 throw new ZeroInventoryException("The game is not available.");
             }
         }
 
-        order.setClient(client);
-        order.setStatus(OrderStatus.PROCESSING);
-        order.setTotalPrice(BigDecimal.valueOf(sum));
-        order.setOrderDate(LocalDate.now());
+        return order;
+    }
+
+    @Transactional
+    public Order updateOrderStatus(Long id, OrderUpdateDTO dto){
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new OrderNotFoundException("Order not found.")
+        );
+
+        order.setStatus(OrderStatus.valueOf(dto.getStatus()));
 
         orderRepository.save(order);
 
@@ -72,12 +95,12 @@ public class OrderService {
     }
 
     @Transactional
-    public Order updateOrderStatus(Long id, OrderUpdateDTO status){
+    public Order updateOrderPaymentStatus(Long id, OrderUpdateDTO dto){
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new OrderNotFoundException("Order not found.")
         );
 
-        order.setStatus(OrderStatus.valueOf(status.getStatus()));
+        order.setPayment(Payment.valueOf(dto.getPayment()));
 
         orderRepository.save(order);
 

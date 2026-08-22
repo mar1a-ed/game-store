@@ -4,6 +4,7 @@ import com.maria.game_store.dto.GameMapper;
 import com.maria.game_store.dto.GameResponseDTO;
 import com.maria.game_store.model.entity.Game;
 import com.maria.game_store.service.GameService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping("/insert")
-    public ResponseEntity<GameResponseDTO> insertGame(@RequestBody Game game){
+    public ResponseEntity<GameResponseDTO> insertGame(@RequestBody @Valid Game game){
         gameService.insertGame(GameMapper.toGameDto(game));
         return ResponseEntity.ok().body(GameMapper.toDto(game));
     }
@@ -55,7 +56,7 @@ public class GameController {
     }
 
     @PatchMapping("/{id}/update/{option}")
-    public ResponseEntity<Void> updateGame(@PathVariable Long id, @PathVariable String option, @RequestBody Game data){
+    public ResponseEntity<Void> updateGame(@PathVariable Long id, @PathVariable String option, @RequestBody @Valid Game data){
         gameService.updateGame(id, option, data);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }

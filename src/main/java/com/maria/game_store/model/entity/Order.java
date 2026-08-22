@@ -2,6 +2,8 @@ package com.maria.game_store.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maria.game_store.model.enums.OrderStatus;
+import com.maria.game_store.model.enums.Payment;
+import com.maria.game_store.model.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,11 +41,17 @@ public class Order implements Serializable {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
+
     @Column(name = "order_date")
     private LocalDate orderDate;
 
     @Column(name = "status")
     private OrderStatus status;
+
+    @Column(name = "payment")
+    private Payment payment;
 
     @Override
     public boolean equals(Object object) {
