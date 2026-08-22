@@ -1,5 +1,7 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.mapper;
 
+import com.maria.game_store.dto.client.ClientCreateDTO;
+import com.maria.game_store.dto.client.ClientResponseDTO;
 import com.maria.game_store.model.entity.Client;
 import org.modelmapper.ModelMapper;
 

@@ -1,19 +1,16 @@
 package com.maria.game_store.service;
 
-import com.maria.game_store.dto.GameInsertDTO;
-import com.maria.game_store.dto.GameMapper;
+import com.maria.game_store.dto.game.GameInsertDTO;
+import com.maria.game_store.dto.mapper.GameMapper;
 import com.maria.game_store.exception.GameNotFoundException;
 import com.maria.game_store.exception.ZeroInventoryException;
 import com.maria.game_store.model.entity.Game;
-import com.maria.game_store.model.enums.Genre;
 import com.maria.game_store.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service

@@ -1,4 +1,4 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.admin;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

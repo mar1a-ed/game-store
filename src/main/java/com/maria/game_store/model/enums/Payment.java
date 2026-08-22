@@ -2,7 +2,7 @@ package com.maria.game_store.model.enums;
 
 public enum Payment {
 
-    PENDING,
-    APPROVED,
-    REFUNDED
+    PENDING, //0
+    APPROVED, //1
+    REFUNDED //2
 }

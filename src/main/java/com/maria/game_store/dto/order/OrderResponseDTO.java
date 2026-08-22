@@ -1,4 +1,4 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.order;
 
 import com.maria.game_store.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor

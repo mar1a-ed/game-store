@@ -1,9 +1,9 @@
 package com.maria.game_store.controller;
 
-import com.maria.game_store.dto.OrderItemDTO;
-import com.maria.game_store.dto.OrderMapper;
-import com.maria.game_store.dto.OrderResponseDTO;
-import com.maria.game_store.dto.OrderUpdateDTO;
+import com.maria.game_store.dto.order.OrderItemDTO;
+import com.maria.game_store.dto.mapper.OrderMapper;
+import com.maria.game_store.dto.order.OrderResponseDTO;
+import com.maria.game_store.dto.order.OrderUpdateDTO;
 import com.maria.game_store.model.entity.Order;
 import com.maria.game_store.service.OrderService;
 import jakarta.validation.Valid;

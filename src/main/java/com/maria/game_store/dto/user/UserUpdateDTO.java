@@ -1,6 +1,5 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.user;
 
-import com.maria.game_store.model.enums.Role;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

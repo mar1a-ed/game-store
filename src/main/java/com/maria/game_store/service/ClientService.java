@@ -1,16 +1,14 @@
 package com.maria.game_store.service;
 
-import com.maria.game_store.dto.ClientCreateDTO;
+import com.maria.game_store.dto.client.ClientCreateDTO;
 import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.model.entity.Client;
-import com.maria.game_store.model.entity.User;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.ClientRepository;
 import com.maria.game_store.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.maria.game_store.service.UserService;
 
 @RequiredArgsConstructor
 @Service

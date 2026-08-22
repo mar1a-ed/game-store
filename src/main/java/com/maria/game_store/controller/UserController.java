@@ -1,8 +1,8 @@
 package com.maria.game_store.controller;
 
-import com.maria.game_store.dto.UserMapper;
-import com.maria.game_store.dto.UserResponseDTO;
-import com.maria.game_store.dto.UserUpdateDTO;
+import com.maria.game_store.dto.mapper.UserMapper;
+import com.maria.game_store.dto.user.UserResponseDTO;
+import com.maria.game_store.dto.user.UserUpdateDTO;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.UserService;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
         User user = userService.findById(id);
         UserResponseDTO dto = UserMapper.toDto(user);

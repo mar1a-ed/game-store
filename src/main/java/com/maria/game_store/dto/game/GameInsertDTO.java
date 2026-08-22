@@ -1,4 +1,4 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.game;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

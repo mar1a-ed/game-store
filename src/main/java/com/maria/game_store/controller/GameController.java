@@ -1,7 +1,7 @@
 package com.maria.game_store.controller;
 
-import com.maria.game_store.dto.GameMapper;
-import com.maria.game_store.dto.GameResponseDTO;
+import com.maria.game_store.dto.mapper.GameMapper;
+import com.maria.game_store.dto.game.GameResponseDTO;
 import com.maria.game_store.model.entity.Game;
 import com.maria.game_store.service.GameService;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ public class GameController {
         return ResponseEntity.ok().body(GameMapper.toDto(game));
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findGameById(@PathVariable Long id){
         Game game = gameService.findGameById(id);
 

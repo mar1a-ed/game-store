@@ -1,6 +1,6 @@
 package com.maria.game_store.service;
 
-import com.maria.game_store.dto.UserUpdateDTO;
+import com.maria.game_store.dto.user.UserUpdateDTO;
 import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.User;

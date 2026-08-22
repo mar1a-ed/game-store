@@ -1,5 +1,6 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.mapper;
 
+import com.maria.game_store.dto.admin.AdminResponseDTO;
 import com.maria.game_store.model.entity.Admin;
 import lombok.Data;
 import org.modelmapper.ModelMapper;

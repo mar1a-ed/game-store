@@ -1,16 +1,11 @@
 package com.maria.game_store.controller;
 
-import com.maria.game_store.dto.ClientCreateDTO;
-import com.maria.game_store.dto.ClientMapper;
-import com.maria.game_store.dto.ClientResponseDTO;
+import com.maria.game_store.dto.client.ClientCreateDTO;
+import com.maria.game_store.dto.mapper.ClientMapper;
 import com.maria.game_store.model.entity.Client;
-import com.maria.game_store.model.entity.User;
 import com.maria.game_store.service.ClientService;
-import com.maria.game_store.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

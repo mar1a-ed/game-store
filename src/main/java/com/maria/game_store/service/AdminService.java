@@ -1,12 +1,10 @@
 package com.maria.game_store.service;
 
-import com.maria.game_store.dto.AdminCreateDTO;
+import com.maria.game_store.dto.admin.AdminCreateDTO;
 import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.exception.RoleException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.Admin;
-import com.maria.game_store.model.entity.Client;
-import com.maria.game_store.model.entity.User;
 import com.maria.game_store.model.enums.Position;
 import com.maria.game_store.model.enums.Role;
 import com.maria.game_store.repository.AdminRepository;

@@ -1,4 +1,4 @@
-package com.maria.game_store.dto;
+package com.maria.game_store.dto.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

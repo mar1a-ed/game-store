@@ -1,7 +1,7 @@
 package com.maria.game_store.service;
 
-import com.maria.game_store.dto.OrderItemDTO;
-import com.maria.game_store.dto.OrderUpdateDTO;
+import com.maria.game_store.dto.order.OrderItemDTO;
+import com.maria.game_store.dto.order.OrderUpdateDTO;
 import com.maria.game_store.exception.AgeRatingException;
 import com.maria.game_store.exception.OrderNotFoundException;
 import com.maria.game_store.exception.UserNotFoundException;
