@@ -20,24 +20,29 @@ public class AdminController {
 
     @PostMapping("/create")
     public ResponseEntity<AdminResponseDTO> createAdmin(@RequestBody @Valid AdminCreateDTO dto){
-        Admin admin = adminService.createAdmin(dto);
+        try{
+            Admin admin = adminService.createAdmin(dto);
 
-        return ResponseEntity.ok().body(AdminMapper.toDto(admin));
-
+            return ResponseEntity.ok().body(AdminMapper.toDto(admin));
+        }catch (IllegalArgumentException e){
+            throw new RuntimeException("Error. Illegal argument insert.");
+        }catch (Exception e){
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 
     @PatchMapping("/{id}/update/position/mid")
     public ResponseEntity<AdminResponseDTO> updatePositionMid(@PathVariable Long id){
         Admin admin = adminService.updatePositionMid(id);
 
-        return ResponseEntity.ok().body(AdminMapper.toDto(admin));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
     }
 
     @PatchMapping("/{id}/update/position/senior")
     public ResponseEntity<AdminResponseDTO> updatePositionSenior(@PathVariable Long id){
         Admin admin = adminService.updatePositionSenior(id);
 
-        return ResponseEntity.ok().body(AdminMapper.toDto(admin));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(AdminMapper.toDto(admin));
     }
 
 }

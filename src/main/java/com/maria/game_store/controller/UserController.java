@@ -46,6 +46,6 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> updateUserData(@PathVariable String nickname, @RequestBody @Valid UserUpdateDTO data){
         User user = userService.updateUserData(nickname, data);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

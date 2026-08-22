@@ -18,14 +18,17 @@ public class ClientController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createClient(@RequestBody @Valid ClientCreateDTO dto){
-        Client client = clientService.createClient(dto);
+        try{
+            Client client = clientService.createClient(dto);
 
-        if(client == null){
-            throw new RuntimeException("Client is null.");
+            if(client == null){
+                throw new RuntimeException("Client is null.");
+            }
+
+            return ResponseEntity.ok().body(ClientMapper.toDto(client));
+        }catch (IllegalArgumentException e) {
+            throw new RuntimeException("Error. Illegal argument insert.");
         }
-
-        return ResponseEntity.ok().body(ClientMapper.toDto(client));
-
     }
 
 }

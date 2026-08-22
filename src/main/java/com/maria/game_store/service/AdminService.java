@@ -1,7 +1,7 @@
 package com.maria.game_store.service;
 
 import com.maria.game_store.dto.admin.AdminCreateDTO;
-import com.maria.game_store.exception.ResourceInUseException;
+import com.maria.game_store.exception.NicknameException;
 import com.maria.game_store.exception.RoleException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.Admin;
@@ -27,15 +27,15 @@ public class AdminService {
         Admin admin = new Admin();
 
         if(userRepository.existsByEmail(dto.getEmail())){
-            throw new ResourceInUseException("Admin already exists.");
+            throw new RuntimeException("Error. User already exists.");
         }
 
         if(adminRepository.existsByCodeRh(dto.getCodeRh())){
-            throw new ResourceInUseException("Admin already exists.");
+            throw new RuntimeException("Error. Admin already exists.");
         }
 
         if(userRepository.existsByNickname(dto.getNickname())){
-            throw new ResourceInUseException("Nickname already exists.");
+            throw new NicknameException("Nickname already exists.");
         }
 
         admin.setName(dto.getName());
@@ -63,6 +63,7 @@ public class AdminService {
         }
 
         admin.setPosition(Position.MID_LEVEL);
+        adminRepository.save(admin);
 
         return admin;
     }
@@ -79,6 +80,7 @@ public class AdminService {
         }
 
         admin.setPosition(Position.SENIOR_LEVEL);
+        adminRepository.save(admin);
 
         return admin;
     }
