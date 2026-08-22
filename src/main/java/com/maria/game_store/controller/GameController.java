@@ -3,6 +3,8 @@ package com.maria.game_store.controller;
 import com.maria.game_store.dto.mapper.GameMapper;
 import com.maria.game_store.dto.game.GameResponseDTO;
 import com.maria.game_store.model.entity.Game;
+import com.maria.game_store.model.enums.GameStockVariationUpdate;
+import com.maria.game_store.model.enums.GameUpdateOption;
 import com.maria.game_store.service.GameService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class GameController {
     @PostMapping("/insert")
     public ResponseEntity<GameResponseDTO> insertGame(@RequestBody @Valid Game game){
         gameService.insertGame(GameMapper.toGameDto(game));
+
         return ResponseEntity.ok().body(GameMapper.toDto(game));
     }
 
@@ -55,21 +58,24 @@ public class GameController {
         return ResponseEntity.ok().body(gamesDto);
     }
 
-    @PatchMapping("/{id}/update/{option}")
-    public ResponseEntity<Void> updateGame(@PathVariable Long id, @PathVariable String option, @RequestBody @Valid Game data){
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<Void> updateGame(@PathVariable Long id, @RequestBody GameUpdateOption option, @RequestBody @Valid Game data){
         gameService.updateGame(id, option, data);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{id}/update/stock/{variation}")
-    public ResponseEntity<Void> updateGameStock(@PathVariable Long id, @PathVariable String variation, @RequestBody Integer quantity){
+    @PatchMapping("/{id}/update/stock")
+    public ResponseEntity<Void> updateGameStock(@PathVariable Long id, @RequestBody GameStockVariationUpdate variation, @RequestBody Integer quantity){
         gameService.updateGameStock(id, variation, quantity);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}/update/stock-out")
     public ResponseEntity<GameResponseDTO> gameStockOut(@PathVariable Long id){
-        Game game = gameService.gameStockOut(id);
+        Game game = gameService.gameOutOfStock(id);
+
         return ResponseEntity.ok().body(GameMapper.toDto(game));
     }
 }
