@@ -2,11 +2,9 @@ package com.maria.game_store.service;
 
 import com.maria.game_store.dto.order.OrderItemDTO;
 import com.maria.game_store.dto.order.OrderUpdateDTO;
-import com.maria.game_store.exception.AgeRatingException;
-import com.maria.game_store.exception.OrderNotFoundException;
-import com.maria.game_store.exception.UserNotFoundException;
-import com.maria.game_store.exception.ZeroInventoryException;
+import com.maria.game_store.exception.*;
 import com.maria.game_store.model.entity.Client;
+import com.maria.game_store.model.entity.Game;
 import com.maria.game_store.model.entity.Order;
 import com.maria.game_store.model.entity.OrderItem;
 import com.maria.game_store.model.enums.OrderStatus;
@@ -45,37 +43,42 @@ public class OrderService {
         for(OrderItemDTO orderItems: itemsDto){
             OrderItem orderItem = new OrderItem();
 
-            if(gameRepository.findByTitle(orderItems.getTitleGame()).getStockQuantity() > 0){
-                orderItem.setGame(gameRepository.findByTitle(orderItems.getTitleGame()));
-                orderItem.setQuantity(orderItems.getQuantity());
-                orderItem.setUnitPrice(BigDecimal.valueOf(orderItems.getQuantity()).multiply(gameRepository.findByTitle(orderItems.getTitleGame()).getPrice()));
-                orderItem.setOrder(order);
+            Game game = gameRepository.findById(gameRepository.findByTitle(orderItems.getTitleGame()).getId()).orElseThrow(
+                    () -> new GameNotFoundException("Game not found.")
+            );
 
-                order.getItems().add(orderItem);
-
-                sum += Double.parseDouble(String.valueOf(orderItem.getUnitPrice()));
-
-                gameRepository.findByTitle(orderItems.getTitleGame()).setStockQuantity(
-                        gameRepository.findByTitle(orderItems.getTitleGame()).getStockQuantity() - orderItems.getQuantity()
-                );
-
-                order.setPaymentMethod(PaymentMethod.valueOf(orderItems.getPaymentMethod()));
-
-                Integer clientAge = LocalDate.EPOCH.getYear() - client.getBirthday().getYear();
-
-                if(clientAge < orderItem.getGame().getAgeRating()){
-                    throw new AgeRatingException("Age not denied for this game.");
-                }
-
-                order.setClient(client);
-                order.setStatus(OrderStatus.PROCESSING);
-                order.setTotalPrice(BigDecimal.valueOf(sum));
-                order.setOrderDate(LocalDate.now());
-                order.setPayment(Payment.PENDING);
-                orderRepository.save(order);
-            }else{
-                throw new ZeroInventoryException("The game is not available.");
+            if(game.getStockQuantity() == 0){
+                throw new ZeroInventoryException("Game is out of stock.");
             }
+
+            orderItem.setGame(game);
+            orderItem.setQuantity(orderItems.getQuantity());
+            orderItem.setUnitPrice(BigDecimal.valueOf(orderItems.getQuantity()).multiply(game.getPrice()));
+            orderItem.setOrder(order);
+
+            order.getItems().add(orderItem);
+
+            sum += Double.parseDouble(String.valueOf(orderItem.getUnitPrice()));
+
+            game.setStockQuantity(
+                    game.getStockQuantity() - orderItems.getQuantity()
+            );
+
+            order.setPaymentMethod(PaymentMethod.valueOf(orderItems.getPaymentMethod()));
+
+            Integer clientAge = LocalDate.EPOCH.getYear() - client.getBirthday().getYear();
+
+            if(clientAge < game.getAgeRating()){
+                throw new AgeRatingException("Age not denied for this game.");
+            }
+
+            order.setClient(client);
+            order.setStatus(OrderStatus.PROCESSING);
+            order.setTotalPrice(BigDecimal.valueOf(sum));
+            order.setOrderDate(LocalDate.now());
+            order.setPayment(Payment.PENDING);
+
+            orderRepository.save(order);
         }
 
         return order;
@@ -89,8 +92,6 @@ public class OrderService {
 
         order.setStatus(OrderStatus.valueOf(dto.getStatus()));
 
-        orderRepository.save(order);
-
         return order;
     }
 
@@ -101,8 +102,6 @@ public class OrderService {
         );
 
         order.setPayment(Payment.valueOf(dto.getPayment()));
-
-        orderRepository.save(order);
 
         return order;
     }

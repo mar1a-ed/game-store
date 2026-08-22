@@ -1,7 +1,7 @@
 package com.maria.game_store.service;
 
 import com.maria.game_store.dto.user.UserUpdateDTO;
-import com.maria.game_store.exception.NicknameException;
+import com.maria.game_store.exception.ResourceInUseException;
 import com.maria.game_store.exception.UserNotFoundException;
 import com.maria.game_store.model.entity.User;
 import com.maria.game_store.repository.UserRepository;
@@ -57,13 +57,13 @@ public class UserService<T extends User> {
         }
 
         if(nickname.equals(dto.getNickname())){
-            throw new NicknameException("Nickname already in use.");
+            throw new ResourceInUseException("Nickname is already in use.");
         }
 
         user.setNickname(dto.getNickname());
         user.setName(dto.getName());
 
-        return (T) userRepository.save(user);
+        return (T) user;
     }
 
 }

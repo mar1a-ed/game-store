@@ -3,8 +3,11 @@ package com.maria.game_store.service;
 import com.maria.game_store.dto.game.GameInsertDTO;
 import com.maria.game_store.dto.mapper.GameMapper;
 import com.maria.game_store.exception.GameNotFoundException;
+import com.maria.game_store.exception.NegativeQuantityException;
 import com.maria.game_store.exception.ZeroInventoryException;
 import com.maria.game_store.model.entity.Game;
+import com.maria.game_store.model.enums.GameStockVariationUpdate;
+import com.maria.game_store.model.enums.GameUpdateOption;
 import com.maria.game_store.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +25,10 @@ public class GameService {
     public Game insertGame(GameInsertDTO gameInsertDTO){
         Game game = GameMapper.toGame(gameInsertDTO);
 
-        try{
-            gameRepository.save(game);
-        }catch (Exception e){
-            throw new RuntimeException("Request with not success");
-        }
+        gameRepository.save(game);
 
         return game;
+
     }
 
     @Transactional
@@ -38,82 +38,77 @@ public class GameService {
         );
 
         return game;
+
     }
 
     @Transactional
     public List<Game> findGameByTitle(String title){
         List<Game> games = gameRepository.findByTitleContaining(title);
 
-        if(games.isEmpty()){
+        if (games.isEmpty()) {
             throw new GameNotFoundException("Game not found.");
         }
 
         return games;
+
     }
 
     @Transactional
     public List<Game> findByGameGenre(String genre){
         List<Game> games = gameRepository.findByGenreContaining(genre);
 
-        if(games.isEmpty()){
+        if (games.isEmpty()) {
             throw new GameNotFoundException("Game not found.");
         }
 
         return games;
+
     }
 
     @Transactional
-    public void updateGame(Long id, String option, Game data){
+    public void updateGame(Long id, GameUpdateOption option, Game data){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
         );
 
-        if(option.equalsIgnoreCase("studio")){
-            game.setStudio(data.getStudio());
-        }else if(option.equalsIgnoreCase("description")){
-            game.setDescription(data.getDescription());
-        }else if(option.equalsIgnoreCase("genre")){
-            game.setGenre(data.getGenre());
-        }else if(option.equalsIgnoreCase("price")){
-            game.setPrice(data.getPrice());
-        }else{
-            game.setAgeRating(data.getAgeRating());
+        switch (option){
+            case STUDIO -> game.setStudio(data.getStudio());
+            case DESCRIPTION -> game.setDescription(data.getDescription());
+            case GENRE -> game.setGenre(data.getGenre());
+            case PRICE -> game.setPrice(data.getPrice());
+            case AGE_RATING -> game.setAgeRating(data.getAgeRating());
         }
-
-        gameRepository.save(game);
     }
 
     @Transactional
-    public void updateGameStock(Long id, String variation, Integer quantity){
+    public void updateGameStock(Long id, GameStockVariationUpdate variation, Integer quantity){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
         );
 
-        if(variation.equalsIgnoreCase("inlet")){
-            game.setStockQuantity(game.getStockQuantity() + quantity);
-        }else{
-            if(game.getStockQuantity() == 0){
-                throw new ZeroInventoryException("Zero stock for the game.");
-            }
-
-            game.setStockQuantity(game.getStockQuantity() - quantity);
+        if(quantity < 0){
+            throw new NegativeQuantityException("Insert a valid quantity.");
         }
 
-        gameRepository.save(game);
+        switch (variation){
+            case INLET -> game.setStockQuantity(game.getStockQuantity() + quantity);
+            case OUTLET -> game.setStockQuantity(game.getStockQuantity() - quantity);
+        }
+
     }
 
     @Transactional
-    public Game gameStockOut(Long id){
+    public Game gameOutOfStock(Long id){
         Game game = gameRepository.findById(id).orElseThrow(
                 () -> new GameNotFoundException("Game not found.")
         );
 
-        if(game.getStockQuantity() != 0){
-            game.setStockQuantity(0);
-        }else{
-            throw new ZeroInventoryException("Game already stock-out.");
+        if(game.getStockQuantity() == 0){
+            throw new ZeroInventoryException("Game is already out of stock.");
         }
 
-        return gameRepository.save(game);
+        game.setStockQuantity(0);
+
+        return game;
     }
 }
